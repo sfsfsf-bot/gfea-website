@@ -383,3 +383,64 @@ footer.site .fineprint .domains b { color: var(--gold-light); }
   .nav-tools .btn-donate { display: none; }
   .cta-banner { padding: 40px 24px; }
 }
+
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+.skip-link {
+  position: absolute; left: -9999px; top: 0; z-index: 200;
+  background: var(--ink); color: #fff; padding: 12px 20px; border-radius: 0 0 12px 0;
+  font-size: .9rem; font-weight: 600;
+}
+.skip-link:focus { left: 0; }
+a:focus-visible, button:focus-visible {
+  outline: 3px solid var(--gold); outline-offset: 3px; border-radius: 6px;
+}
+
+/* ============================================================
+   ORGANIZATION INFORMATION  (EIN / address / domains)
+   Intentionally low-key: small and muted, but real crawlable text
+   that still meets WCAG AA contrast — never hidden from users.
+   ============================================================ */
+.org-info {
+  border-top: 1px solid rgba(255,255,255,.08);
+  margin-top: 34px; padding-top: 20px;
+}
+.org-info-title {
+  font-family: var(--font); font-size: .68rem; letter-spacing: 1.5px;
+  text-transform: uppercase; color: #79818F; font-weight: 600; margin-bottom: 9px;
+}
+.org-info-body {
+  font-style: normal; font-size: .78rem; line-height: 1.72; color: #9AA3B5;
+  display: grid; gap: 0; max-width: 780px;
+}
+.org-info-body b { color: #BAC1CD; font-weight: 600; }
+.org-info-body .k { color: #79818F; }
+.org-info-body .org-info-note { margin-top: 9px; color: #79818F; line-height: 1.65; }
+.org-info-body .org-info-note a { color: #9AA3B5; text-decoration: underline; text-underline-offset: 2px; }
+.org-info-body .org-info-note a:hover { color: var(--gold-light); }
+
+/* quiet in-page org facts (home / about / contact) */
+.org-facts {
+  list-style: none; display: grid; gap: 7px; margin-top: 20px;
+  padding: 18px 20px; border: 1px solid var(--line); border-radius: 14px;
+  background: rgba(255,255,255,.55); max-width: 640px;
+}
+.org-facts li { display: flex; flex-wrap: wrap; gap: 8px; font-size: .82rem; line-height: 1.6; color: #636B7A; }
+.org-facts .k { min-width: 168px; color: #676F7E; font-weight: 500; }
+.org-facts .v { color: #4E5666; font-weight: 500; }
+.org-facts a { color: #4E5666; text-decoration: underline; text-underline-offset: 2px; }
+.org-facts a:hover { color: var(--gold); }
+.org-note {
+  font-size: .82rem; line-height: 1.7; color: #636B7A; max-width: 700px; margin-top: 16px;
+}
+.org-note strong { color: #4E5666; font-weight: 600; }
+section.dark .org-facts { background: rgba(255,255,255,.04); border-color: rgba(255,255,255,.12); }
+section.dark .org-facts li, section.dark .org-facts .v { color: #B6BDCB; }
+section.dark .org-facts .k { color: #97A0B1; }
+section.dark .org-note { color: #B6BDCB; }
+
+@media (max-width: 560px) {
+  .org-facts .k { min-width: 100%; }
+  .org-facts li { gap: 2px; }
+}

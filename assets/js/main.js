@@ -10,7 +10,9 @@
     document.body.classList.add('lang-' + lang);
     document.documentElement.lang = CODE[lang];
     document.querySelectorAll('[data-setlang]').forEach(function (b) {
-      b.classList.toggle('active', b.getAttribute('data-setlang') === lang);
+      var on = b.getAttribute('data-setlang') === lang;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
     try { localStorage.setItem(KEY, lang); } catch (e) {}
   }
@@ -20,27 +22,41 @@
   try { saved = localStorage.getItem(KEY) || 'en'; } catch (e) {}
   applyLang(saved);
 
+  function setNav(open) {
+    var nl = document.querySelector('.nav-links');
+    var bg = document.querySelector('[data-burger]');
+    if (!nl) return;
+    nl.classList.toggle('open', open);
+    if (bg) bg.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
   document.addEventListener('click', function (e) {
     var setter = e.target.closest('[data-setlang]');
     if (setter) { applyLang(setter.getAttribute('data-setlang')); return; }
 
     var burger = e.target.closest('[data-burger]');
     if (burger) {
-      document.querySelector('.nav-links').classList.toggle('open');
-    } else if (!e.target.closest('.nav-links')) {
-      var nl = document.querySelector('.nav-links.open');
-      if (nl) nl.classList.remove('open');
+      setNav(!document.querySelector('.nav-links').classList.contains('open'));
+      return;
     }
-    if (e.target.closest('.nav-links a')) {
-      document.querySelector('.nav-links').classList.remove('open');
-    }
+    if (e.target.closest('.nav-links a') || !e.target.closest('.nav-links')) setNav(false);
   });
 
-  /* reveal on scroll */
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (en) {
-      if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
-    });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+  /* close the mobile menu on Escape */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') setNav(false);
+  });
+
+  /* reveal on scroll — skip entirely if the visitor prefers reduced motion */
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)) {
+    document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+  }
 })();

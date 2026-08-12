@@ -1,0 +1,12 @@
+# macOS / iCloud artifacts
+.DS_Store
+.fuse_hidden*
+
+# Cloudflare Wrangler
+.wrangler/
+
+# Legacy gfea.one site — deployed separately, not part of gfeaone.org
+_gfea-one-legacy-site/
+
+# staged for manual deletion
+_to_delete/
