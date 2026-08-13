@@ -1,7 +1,0 @@
-# Golden Financial Exploration Association — gfeaone.org
-# All pages are public and open to crawlers.
-
-User-agent: *
-Allow: /
-
-Sitemap: https://gfeaone.org/sitemap.xml
